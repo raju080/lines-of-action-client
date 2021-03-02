@@ -1,0 +1,11 @@
+.gameBoard {
+  justify-content: center;
+  /* box-shadow: 0 10px 20px rgba(109, 94, 94, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06); */
+}
+
+.squareButton {
+  height: 60px;
+  width: 60px;
+  border-radius: 0px;
+  border: 1px solid black;
+}
