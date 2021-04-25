@@ -62,6 +62,15 @@ function Main(props) {
 		return flag;
 	};
 
+	const handleWinning = () => {
+		const winner = isMatchOver(props.boardState);
+		if (winner >= 0) {
+			dispatch({ type: ActionTypes.SET_WINNER, payload: winner });
+			dispatch({ type: ActionTypes.RESET_SELECTED_PIECE_MOVES });
+			
+		}
+	}
+
 	const movePiece = (i, j, i2, j2) => {
 		// alert('moving piece: '+ i + ' ' + j + ' to :' + i2 + ' ' + j2)
 		if (props.gameMode == 2 && props.currentPlayer == 1)
@@ -73,15 +82,12 @@ function Main(props) {
 		state[i2][j2] = state[i][j];
 		state[i][j] = 0;
 		dispatch({ type: ActionTypes.SET_BOARD_STATE, payload: state });
+		handleWinning();
 		dispatch({
 			type: ActionTypes.SET_CURRENT_PLAYER,
 			payload: props.currentPlayer == 1 ? 2 : 1,
 		});
-		const winner = isMatchOver(props.boardState);
-		if (winner >= 0) {
-			dispatch({ type: ActionTypes.SET_WINNER, payload: winner });
-			dispatch({ type: ActionTypes.RESET_SELECTED_PIECE_MOVES });
-		}
+		
 	};
 
 	const handlePieceClick = (i, j) => {

@@ -24,6 +24,12 @@ function GameInfo({gameMode, player1, player2, currentPlayer, winner}) {
 						<h6>Current Move : Player {currentPlayer} </h6>
 					</Row>
 				</Card.Body>
+				{
+					winner>0 && 
+					<h3 style={{color: 'darkgreen'}}>
+						Congratulations. Winner is player - {winner}
+					</h3>
+				}
 			</Card>
 		</div>
 	);
