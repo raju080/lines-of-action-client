@@ -15,6 +15,8 @@ import {
 	isMatchOver,
 	moveBot,
 	sendPlayerMoveToBot,
+	resetGame,
+	newGame
 } from '../redux/actionCreators';
 import '../styles/Main.css';
 
@@ -33,8 +35,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		initGame: data => dispatch(initGame(data)),
-	}
+		newGame: (data) => dispatch(newGame(data)),
+		resetGame: (gameMode) => dispatch(resetGame(gameMode)),
+	};
 };
 
 function Main(props) {
@@ -77,7 +80,7 @@ function Main(props) {
 			sendPlayerMoveToBot(i, j, i2, j2);
 		let state = [];
 		props.boardState.map((row) => {
-			state.push(row);
+			state.push(row.slice());
 		});
 		state[i2][j2] = state[i][j];
 		state[i][j] = 0;
@@ -91,14 +94,15 @@ function Main(props) {
 	};
 
 	const handlePieceClick = (i, j) => {
+		console.log("clicked " + i + " " + j)
 		if (
 			// checking if it is turn for the player clicked
-			props.gameMode == 1 ||
-			(props.gameMode == 2 && props.currentPlayer == 1)
+			props.gameMode === 1 ||
+			(props.gameMode === 2 && props.currentPlayer === 1)
 		) {
 			if (
 				props.winner < 0 &&
-				!(i == props.selectedPiece.i && j == props.selectedPiece.j)
+				!(i === props.selectedPiece.i && j === props.selectedPiece.j)
 			) {
 				if (isInCurrentMoves(i, j)) {
 					movePiece(props.selectedPiece.i, props.selectedPiece.j, i, j);
@@ -123,20 +127,20 @@ function Main(props) {
 
 	return (
 		<>
-			<Header />
+			<Header gameMode={props.gameMode} resetGame={props.resetGame} />
 			<Switch>
 				<Route exact path='/gamebegin'>
-					<GameBegin initGame={props.initGame} />
+					<GameBegin newGame={props.newGame} />
 				</Route>
 
 				<Route exact path='/gameplay'>
 					<div className='container'>
-						<div className='row' style={{marginTop: '20px'}}>
+						<div className='row' style={{ marginTop: '20px' }}>
 							<div className='col-md-8'>
 								<GameBoard
 									state={props.boardState}
 									currentPlayer={props.currentPlayer}
-									findMoves={handlePieceClick}
+									onClickPiece={handlePieceClick}
 									selectedPieceMoves={props.selectedPieceMoves}
 								/>
 							</div>

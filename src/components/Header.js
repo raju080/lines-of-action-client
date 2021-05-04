@@ -2,14 +2,14 @@ import React from 'react';
 import { Navbar, NavItem, NavLink, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ gameMode, resetGame }) {
 	return (
 		<Navbar bg='dark' variant='dark'>
 			<Navbar.Brand>Lines Of Action</Navbar.Brand>
 			<Navbar.Collapse id='responsive-navbar-nav'>
 				<Nav className='ml-auto'>
 					<NavItem>
-						<NavLink href='/gameplay'>Restart</NavLink>
+						<NavLink onClick={(gameMode) => resetGame(gameMode)}>Restart</NavLink>
 					</NavItem>
 					<NavItem>
 						<NavLink>Change Bot</NavLink>

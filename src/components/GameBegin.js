@@ -3,14 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { Card, Form, Button, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
-function GameBegin({initGame}) {
+function GameBegin({newGame}) {
 
 	const {register, handleSubmit } = useForm();
 	const history = useHistory();
 
   const onSubmit = (data) => {
     console.log(data);
-		initGame(data);
+		newGame(data);
 		history.push('/gameplay');
 	};
 

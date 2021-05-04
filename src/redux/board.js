@@ -1,6 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 
-let initialState6 = [
+let initialBoardState6 = [
 	[0, 1, 1, 1, 1, 0],
 	[2, 0, 0, 0, 0, 2],
 	[2, 0, 0, 0, 0, 2],
@@ -9,7 +9,7 @@ let initialState6 = [
 	[0, 1, 1, 1, 1, 0],
 ];
 
-let initialState8 = [
+let initialBoardState8 = [
 	[0, 1, 1, 1, 1, 1, 1, 0],
 	[2, 0, 0, 0, 0, 0, 0, 2],
 	[2, 0, 0, 0, 0, 0, 0, 2],
@@ -27,30 +27,26 @@ const GameModes = {
 	HUMAN_VS_BOT3: 4,
 };
 
-const Board = (
-	state = {
-		gameMode: GameModes.HUMAN_VS_BOT1,
-		player1: 'Player 1',
-		player2: 'Player 2',
-		currentPlayer: 1,
-		winner: -1,
-		board: initialState8,
-		selectedPieceMoves: [],
-		selectedPiece: { i: -1, j: -1 },
-	},
-	action
-) => {
+const initialGameState = {
+	gameMode: GameModes.HUMAN_VS_BOT1,
+	player1: 'Player 1',
+	player2: 'Player 2',
+	currentPlayer: 1,
+	winner: -1,
+	board: initialBoardState8,
+	selectedPieceMoves: [],
+	selectedPiece: { i: -1, j: -1 },
+};
+
+const Board = (state = { ...initialGameState }, action) => {
 	switch (action.type) {
 		case ActionTypes.SET_BOARD_STATE:
-			if (action.payload == '6') {
-				return { ...state, board: initialState6 };
-			} else if (action.payload == '8') {
-				return { ...state, board: initialState8 };
-			}
-			return state;
+			let tempBoardState = []
+			action.payload.map((row) => tempBoardState.push(row.slice()));
+			return { ...state, board: tempBoardState };
 
 		case ActionTypes.SET_GAME_MODE:
-			return { ...state, gameMode: action.payload };
+			return { ...state, gameMode: parseInt(action.payload) };
 
 		case ActionTypes.SET_PLAYER1:
 			return { ...state, player1: action.payload };
@@ -59,7 +55,7 @@ const Board = (
 			return { ...state, player2: action.payload };
 
 		case ActionTypes.SET_CURRENT_PLAYER:
-			return { ...state, currentPlayer: action.payload };
+			return { ...state, currentPlayer: parseInt(action.payload) };
 
 		case ActionTypes.SET_SELECTED_PIECE_MOVES:
 			return { ...state, selectedPieceMoves: action.payload };
@@ -72,6 +68,28 @@ const Board = (
 
 		case ActionTypes.SET_WINNER:
 			return { ...state, winner: action.payload };
+
+		case ActionTypes.INIT_GAME:
+			let tempState = {
+				...initialGameState,
+				gameMode: parseInt(action.payload.gamemode),
+				player1: action.payload.p1name,
+				player2: action.payload.p2name,
+			};
+			if (action.payload.boardsize === "6") {
+				tempState = { ...tempState, board: initialBoardState6 };
+			} else if (action.payload.boardsize === "8") {
+				tempState = { ...tempState, board: initialBoardState8 };
+			}
+			return tempState;
+
+		case ActionTypes.RESET_GAME:
+			if (state.board.length === 6) {
+				return { ...state, board: initialBoardState6 };
+			} else if (state.board.length === 8) {
+				return { ...state, board: initialBoardState8 };
+			}
+			return { ...state, board: initialBoardState8 };
 
 		default:
 			return state;

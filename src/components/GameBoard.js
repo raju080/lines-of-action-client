@@ -30,7 +30,7 @@ const Square = ({pieceColor, squareColor, i, j, onClick }) => {
 	);
 };
 
-function GameBoard({state, currentPlayer, findMoves, selectedPieceMoves}) {
+function GameBoard({state, currentPlayer, onClickPiece, selectedPieceMoves}) {
 
 	const isInCurrentMoves = (i, j) => {
 		let flag = false;
@@ -51,8 +51,15 @@ function GameBoard({state, currentPlayer, findMoves, selectedPieceMoves}) {
 							{row && row.map((cell, j) => {
 								let squareColor = isInCurrentMoves(i, j) ? SUGGESTION_SQUARE_COLOR : SQUARE_COLOR;
 								let pieceColor = isInCurrentMoves(i, j) && cell==0 ? SUGGESTION_PIECE_COLOR : pieceToColorMap[cell];
-								return <Square squareColor={squareColor} pieceColor={pieceColor} i={i} j={j} 
-												onClick={findMoves} />
+								return (
+									<Square
+										squareColor={squareColor}
+										pieceColor={pieceColor}
+										i={i}
+										j={j}
+										onClick={onClickPiece}
+									/>
+								);
 							 })}
 						</div>
 					))}

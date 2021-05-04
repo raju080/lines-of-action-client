@@ -3,16 +3,6 @@ import axios from 'axios';
 
 const baseUrl = 'http://localhost:5000';
 
-export const initGame = (data) => (dispatch) => {
-	console.log('in init game');
-	console.log(
-		data.p1name + ' ' + data.p2name + ' ' + data.gamemode + ' ' + data.boardsize
-	);
-	dispatch({ type: ActionTypes.SET_PLAYER1, payload: data.p1name });
-	dispatch({ type: ActionTypes.SET_PLAYER2, payload: data.p2name });
-	dispatch({ type: ActionTypes.SET_GAME_MODE, payload: data.gamemode });
-	dispatch({ type: ActionTypes.SET_BOARD_STATE, payload: data.boardsize });
-};
 
 export const exploreCluster = (i, j, pieceNumber, boardState, visited) => {
 	if (
@@ -271,6 +261,12 @@ export const findMoves = (i, j, boardState, currentPlayer) => {
 	return [];
 };
 
+
+/*
+** Move logics interaction with server
+*/
+
+
 export const moveBot = (movePiece) => {
 	return axios({
 		method: 'GET',
@@ -302,3 +298,55 @@ export const sendPlayerMoveToBot = (i, j, i2, j2) => {
 			console.log(err);
 		});
 };
+
+
+/*
+** Game logic interaction with server
+*/
+
+export const initGame = (data) => (dispatch) => {
+	dispatch({ type: ActionTypes.INIT_GAME, payload: data });
+};
+
+
+export const resetGame = (gameMode) => (dispatch) => {
+	dispatch({ type: ActionTypes.RESET_GAME });
+	if (gameMode !== 1) {
+		return axios({
+			method: 'GET',
+			url: 'resetgame/',
+			baseURL: baseUrl,
+		})
+			.then((res) => res.data)
+			.then((res) => {
+				console.log(res);
+				console.log('resetting game');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+};
+
+
+export const newGame = (gameInfo) => (dispatch) => {
+	dispatch(initGame(gameInfo));
+	// not human vs human
+	if (gameInfo.gamemode !== 1) {
+		return axios({
+			method: 'POST',
+			url: 'newgame/',
+			data: gameInfo,
+			baseURL: baseUrl,
+		})
+			.then((res) => res.data)
+			.then((res) => {
+				console.log(res);
+				console.log('new game');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+};
+
