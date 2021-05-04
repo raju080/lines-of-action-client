@@ -33,17 +33,59 @@ const initialGameState = {
 	player2: 'Player 2',
 	currentPlayer: 1,
 	winner: -1,
-	board: initialBoardState8,
+	board: [],
 	selectedPieceMoves: [],
 	selectedPiece: { i: -1, j: -1 },
 };
 
 const Board = (state = { ...initialGameState }, action) => {
 	switch (action.type) {
+		case ActionTypes.INIT_GAME:
+			let tempState = {
+				...initialGameState,
+				gameMode: parseInt(action.payload.gamemode),
+				player1: action.payload.p1name,
+				player2: action.payload.p2name,
+			};
+			let tempBoardState1 = [];
+			if (action.payload.boardsize === '6') {
+				initialBoardState6.forEach((row) => {
+					tempBoardState1.push(row.slice());
+				});
+			} else if (action.payload.boardsize === '8') {
+				initialBoardState8.forEach((row) => {
+					tempBoardState1.push(row.slice());
+				});
+			}
+			return { ...tempState, board: tempBoardState1 };
+
+		case ActionTypes.RESET_GAME:
+			console.log("resetting game")
+			let tempBoardState2 = [];
+			if (state.board.length === 6) {
+				initialBoardState6.forEach((row) => {
+					tempBoardState2.push(row.slice());
+				});
+			} else if (state.board.length === 8) {
+				initialBoardState8.forEach((row) => {
+					tempBoardState2.push(row.slice());
+				});
+			}
+			return {
+				...state,
+				currentPlayer: 1,
+				winner: -1,
+				selectedPieceMoves: [],
+				selectedPiece: { i: -1, j: -1 },
+				board: tempBoardState2,
+			};
+
 		case ActionTypes.SET_BOARD_STATE:
-			let tempBoardState = []
-			action.payload.map((row) => tempBoardState.push(row.slice()));
-			return { ...state, board: tempBoardState };
+			let tempBoardState3 = [];
+			action.payload.forEach((row) => {
+				tempBoardState3.push(row.slice());
+			});
+			return { ...state, board: tempBoardState3 };
 
 		case ActionTypes.SET_GAME_MODE:
 			return { ...state, gameMode: parseInt(action.payload) };
@@ -68,28 +110,6 @@ const Board = (state = { ...initialGameState }, action) => {
 
 		case ActionTypes.SET_WINNER:
 			return { ...state, winner: action.payload };
-
-		case ActionTypes.INIT_GAME:
-			let tempState = {
-				...initialGameState,
-				gameMode: parseInt(action.payload.gamemode),
-				player1: action.payload.p1name,
-				player2: action.payload.p2name,
-			};
-			if (action.payload.boardsize === "6") {
-				tempState = { ...tempState, board: initialBoardState6 };
-			} else if (action.payload.boardsize === "8") {
-				tempState = { ...tempState, board: initialBoardState8 };
-			}
-			return tempState;
-
-		case ActionTypes.RESET_GAME:
-			if (state.board.length === 6) {
-				return { ...state, board: initialBoardState6 };
-			} else if (state.board.length === 8) {
-				return { ...state, board: initialBoardState8 };
-			}
-			return { ...state, board: initialBoardState8 };
 
 		default:
 			return state;

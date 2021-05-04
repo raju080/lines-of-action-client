@@ -267,36 +267,34 @@ export const findMoves = (i, j, boardState, currentPlayer) => {
 */
 
 
-export const moveBot = (movePiece) => {
-	return axios({
-		method: 'GET',
-		url: 'move/',
-		baseURL: baseUrl,
-	})
-		.then((res) => res.data)
-		.then((res) => {
-			console.log(res);
-			movePiece(res.i, res.j, res.i2, res.j2);
-		})
-		.catch((err) => {
-			console.log(err);
+export const moveBot = async (movePiece) => {
+	try {
+		const res = await axios({
+			method: 'GET',
+			url: 'move/',
+			baseURL: baseUrl,
 		});
+		const res_1 = res.data;
+		console.log(res_1);
+		movePiece(res_1.i, res_1.j, res_1.i2, res_1.j2);
+	} catch (err) {
+		console.log(err);
+	}
 };
 
-export const sendPlayerMoveToBot = (i, j, i2, j2) => {
-	return axios({
-		method: 'POST',
-		url: 'humanmove/',
-		data: { i, j, i2, j2 },
-		baseURL: baseUrl,
-	})
-		.then((res) => res.data)
-		.then((res) => {
-			console.log(res);
-		})
-		.catch((err) => {
-			console.log(err);
+export const sendPlayerMoveToBot = async (i, j, i2, j2) => {
+	try {
+		const res = await axios({
+			method: 'POST',
+			url: 'humanmove/',
+			data: { i, j, i2, j2 },
+			baseURL: baseUrl,
 		});
+		const res_1 = res.data;
+		console.log(res_1);
+	} catch (err) {
+		console.log(err);
+	}
 };
 
 
@@ -309,44 +307,43 @@ export const initGame = (data) => (dispatch) => {
 };
 
 
-export const resetGame = (gameMode) => (dispatch) => {
+export const resetGame = (gameMode) => async (dispatch) => {
+	console.log("game mode" + gameMode)
 	dispatch({ type: ActionTypes.RESET_GAME });
 	if (gameMode !== 1) {
-		return axios({
-			method: 'GET',
-			url: 'resetgame/',
-			baseURL: baseUrl,
-		})
-			.then((res) => res.data)
-			.then((res) => {
-				console.log(res);
-				console.log('resetting game');
-			})
-			.catch((err) => {
-				console.log(err);
+		try {
+			const res = await axios({
+				method: 'GET',
+				url: 'restamp/',
+				baseURL: baseUrl,
 			});
+			const res_1 = res.data;
+			console.log(res_1);
+			console.log('resetting game');
+		} catch (err) {
+			console.log(err);
+		}
 	}
 };
 
 
-export const newGame = (gameInfo) => (dispatch) => {
+export const newGame = (gameInfo) => async (dispatch) => {
 	dispatch(initGame(gameInfo));
 	// not human vs human
 	if (gameInfo.gamemode !== 1) {
-		return axios({
-			method: 'POST',
-			url: 'newgame/',
-			data: gameInfo,
-			baseURL: baseUrl,
-		})
-			.then((res) => res.data)
-			.then((res) => {
-				console.log(res);
-				console.log('new game');
-			})
-			.catch((err) => {
-				console.log(err);
+		try {
+			const res = await axios({
+				method: 'POST',
+				url: 'newgame/',
+				data: gameInfo,
+				baseURL: baseUrl,
 			});
+			const res_1 = res.data;
+			console.log(res_1);
+			console.log('new game');
+		} catch (err) {
+			console.log(err);
+		}
 	}
 };
 

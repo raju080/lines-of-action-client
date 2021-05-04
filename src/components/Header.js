@@ -9,7 +9,7 @@ function Header({ gameMode, resetGame }) {
 			<Navbar.Collapse id='responsive-navbar-nav'>
 				<Nav className='ml-auto'>
 					<NavItem>
-						<NavLink onClick={(gameMode) => resetGame(gameMode)}>Restart</NavLink>
+						<NavLink onClick={() => resetGame(gameMode)}>Restart</NavLink>
 					</NavItem>
 					<NavItem>
 						<NavLink>Change Bot</NavLink>
