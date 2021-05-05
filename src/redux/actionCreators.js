@@ -315,7 +315,7 @@ export const resetGame = (gameMode) => async (dispatch) => {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: 'restamp/',
+				url: 'resetgame/',
 				baseURL: baseUrl,
 			});
 			const res_1 = res.data;

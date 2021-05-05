@@ -1,8 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Navbar, NavItem, NavLink, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 function Header({ gameMode, resetGame }) {
+	const history = useHistory();
+	const startNewGame = () => {
+		resetGame(gameMode);
+		history.push('/gamebegin');
+	}
 	return (
 		<Navbar bg='dark' variant='dark'>
 			<Navbar.Brand>Lines Of Action</Navbar.Brand>
@@ -15,7 +20,7 @@ function Header({ gameMode, resetGame }) {
 						<NavLink>Change Bot</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink href='/gamebegin'>New Game</NavLink>
+						<NavLink onClick={() => startNewGame()}>New Game</NavLink>
 					</NavItem>
 					<NavItem>
 						<NavLink>Exit</NavLink>
