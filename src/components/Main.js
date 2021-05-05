@@ -46,7 +46,7 @@ function Main(props) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (props.gameMode == 2 && props.currentPlayer == 2) {
+		if (props.gameMode == 2 && props.currentPlayer == 2 && props.winner < 0) {
 			moveBot(movePiece);
 			//movePiece(botmove.i, botmove.j, botmove.i2, botmove.j2);
 		}
@@ -65,12 +65,12 @@ function Main(props) {
 		return flag;
 	};
 
-	const handleWinning = () => {
-		const winner = isMatchOver(props.boardState);
+	const handleWinning = (state) => {
+		const winner = isMatchOver(state);
+		console.log("winner: " + winner)
 		if (winner >= 0) {
 			dispatch({ type: ActionTypes.SET_WINNER, payload: winner });
 			dispatch({ type: ActionTypes.RESET_SELECTED_PIECE_MOVES });
-			
 		}
 	}
 
@@ -85,7 +85,7 @@ function Main(props) {
 		state[i2][j2] = state[i][j];
 		state[i][j] = 0;
 		dispatch({ type: ActionTypes.SET_BOARD_STATE, payload: state });
-		handleWinning();
+		handleWinning(state);
 		dispatch({
 			type: ActionTypes.SET_CURRENT_PLAYER,
 			payload: props.currentPlayer == 1 ? 2 : 1,

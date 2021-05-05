@@ -38,6 +38,7 @@ export const exploreCluster = (i, j, pieceNumber, boardState, visited) => {
 
 export const isMatchOver = (boardState) => {
 	const BOARD_LENGTH = boardState.length;
+	console.log(boardState)
 	let playerOneClusterCount = 0,
 		playerTwoClusterCount = 0;
 	let visited = [];
