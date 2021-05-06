@@ -7,14 +7,14 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 const PIECE_COLOR = '';
-const SQUARE_COLOR = 'gray';
-const SUGGESTION_SQUARE_COLOR = 'darkgray';
-const SUGGESTION_PIECE_COLOR = 'gray';
+const SQUARE_COLOR = 'darkgray';
+const SUGGESTION_SQUARE_COLOR = 'grey';
+const SUGGESTION_PIECE_COLOR = 'grey';
 
 const pieceToColorMap = {
-	0: 'gray',
-	1: 'red',
-	2: 'blue',
+	0: 'darkgray',
+	1: 'black',
+	2: 'white',
 };
 
 

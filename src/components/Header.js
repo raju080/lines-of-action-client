@@ -17,13 +17,10 @@ function Header({ gameMode, resetGame }) {
 						<NavLink onClick={() => resetGame(gameMode)}>Restart</NavLink>
 					</NavItem>
 					<NavItem>
-						<NavLink>Change Bot</NavLink>
-					</NavItem>
-					<NavItem>
 						<NavLink onClick={() => startNewGame()}>New Game</NavLink>
 					</NavItem>
-					<NavItem>
-						<NavLink>Exit</NavLink>
+					<NavItem onClick={() => {history.push('/gamerules')}}>
+						<NavLink>Game Rules</NavLink>
 					</NavItem>
 				</Nav>
 			</Navbar.Collapse>

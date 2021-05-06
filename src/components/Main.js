@@ -8,6 +8,7 @@ import Footer from './Footer';
 import GameBoard from './GameBoard';
 import GameInfo from './GameInfo';
 import GameBegin from './GameBegin';
+import GameRules from './GameRules';
 import * as ActionTypes from '../redux/ActionTypes';
 import {
 	findMoves,
@@ -155,6 +156,10 @@ function Main(props) {
 							</div>
 						</div>
 					</div>
+				</Route>
+
+				<Route exact path='/gamerules'>
+					<GameRules />
 				</Route>
 
 				<Redirect to='/gamebegin' />
